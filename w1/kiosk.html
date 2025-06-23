@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menu + Cart UI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black flex items-center justify-center min-h-screen">
+
+  <div class="bg-white rounded-2xl shadow-lg w-full max-w-5xl flex">
+    <!-- Left: Menu -->
+    <div class="w-3/4 p-6">
+      <h1 class="text-3xl font-bold text-center bg-black text-white py-2 mb-4">MENU</h1>
+
+      <!-- Category: Pizza -->
+      <div class="mb-6">
+        <h2 class="text-md font-medium bg-gray-200 inline-block px-3 py-1 rounded">pizza</h2>
+        <div class="grid grid-cols-3 gap-4 mt-2">
+          <img src="https://via.placeholder.com/120x90?text=Pizza1" alt="Pizza 1" class="rounded">
+          <img src="https://via.placeholder.com/120x90?text=Pizza2" alt="Pizza 2" class="rounded">
+          <img src="https://via.placeholder.com/120x90?text=Pizza3" alt="Pizza 3" class="rounded">
+        </div>
+      </div>
+
+      <!-- Category: Topping -->
+      <div class="mb-6">
+        <h2 class="text-md font-medium bg-gray-200 inline-block px-3 py-1 rounded">topping</h2>
+        <div class="grid grid-cols-3 gap-4 mt-2">
+          <img src="https://via.placeholder.com/120x90?text=Mozzarella" alt="Mozzarella" class="rounded">
+          <img src="https://via.placeholder.com/120x90?text=Bacon" alt="Bacon" class="rounded">
+          <img src="https://via.placeholder.com/120x90?text=Onion" alt="Onion" class="rounded">
+        </div>
+      </div>
+
+      <!-- Category: Side -->
+      <div>
+        <h2 class="text-md font-medium bg-gray-200 inline-block px-3 py-1 rounded">side</h2>
+        <div class="grid grid-cols-2 gap-4 mt-2">
+          <img src="https://via.placeholder.com/120x90?text=Chicken" alt="Chicken" class="rounded">
+          <img src="https://via.placeholder.com/120x90?text=Spaghetti" alt="Spaghetti" class="rounded">
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Cart -->
+    <div class="w-1/4 bg-gray-200 p-4 flex flex-col">
+      <!-- Cart Icon -->
+      <div class="flex justify-center mb-4">
+        <img src="https://img.icons8.com/ios-filled/50/shopping-cart.png" alt="cart" class="w-10 h-10" />
+      </div>
+
+      <!-- Cart Items -->
+      <div class="space-y-4 flex-1">
+        <!-- Item 1 -->
+        <div class="flex items-center space-x-2">
+          <img src="https://via.placeholder.com/60x40?text=Pizza" class="rounded" />
+          <span class="text-lg">1</span>
+          <img src="https://img.icons8.com/ios-filled/24/trash.png" class="cursor-pointer" alt="delete"/>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="flex items-center space-x-2">
+          <img src="https://via.placeholder.com/60x40?text=Mozzarella" class="rounded" />
+          <span class="text-lg">2</span>
+          <img src="https://img.icons8.com/ios-filled/24/trash.png" class="cursor-pointer" alt="delete"/>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="flex items-center space-x-2">
+          <img src="https://via.placeholder.com/60x40?text=Spaghetti" class="rounded" />
+          <span class="text-lg">1</span>
+          <img src="https://img.icons8.com/ios-filled/24/trash.png" class="cursor-pointer" alt="delete"/>
+        </div>
+      </div>
+
+      <!-- Total Price -->
+      <div class="mt-4 border-t pt-4 text-center text-lg font-semibold">
+        Total: ₩45,000
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
