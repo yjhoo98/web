@@ -1,85 +1,288 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Menu + Cart UI</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <title>Pizza Menu</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #1a1a1a;
+    }
+
+    .container {
+      display: flex;
+      background: white;
+      margin: 50px auto;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 1400px;
+      overflow: hidden;
+    }
+
+    .menu {
+      width: 70%;
+      padding: 20px;
+    }
+
+    .menu h1 {
+      background: black;
+      color: white;
+      padding: 20px;
+      margin: 0;
+      text-align: center;
+      font-size: 2em;
+      letter-spacing: 5px;
+    }
+
+    .category {
+      margin-top: 20px;
+    }
+
+    .category h3 {
+      background: #e0e3e7;
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 16px;
+      text-transform: lowercase;
+    }
+
+    .items {
+      display: flex;
+      gap: 20px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .item-box {
+      width: 100px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .item-box img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 5px;
+      background: #f0f0f0;
+    }
+
+    .item-label {
+      margin-top: 5px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .cart {
+      width: 30%;
+      background: #e3e6eb;
+      padding: 20px;
+      position: relative;
+    }
+
+    .cart-icon {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .cart-icon img {
+      width: 40px;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      gap: 10px;
+    }
+
+    .cart-item img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    .qty-box {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .qty-box button {
+      padding: 0 5px;
+      cursor: pointer;
+    }
+
+    .total {
+      margin-top: 20px;
+      text-align: right;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    #payBtn {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      padding: 10px;
+      font-weight: bold;
+      width: calc(100% - 40px);
+    }
+
+    #receiptModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #receiptModal .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 400px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+  </style>
 </head>
-<body class="bg-black flex items-center justify-center min-h-screen">
-
-  <div class="bg-white rounded-2xl shadow-lg w-full max-w-5xl flex">
-    <!-- Left: Menu -->
-    <div class="w-3/4 p-6">
-      <h1 class="text-3xl font-bold text-center bg-black text-white py-2 mb-4">MENU</h1>
-
-      <!-- Category: Pizza -->
-      <div class="mb-6">
-        <h2 class="text-md font-medium bg-gray-200 inline-block px-3 py-1 rounded">pizza</h2>
-        <div class="grid grid-cols-3 gap-4 mt-2">
-          <img src="https://via.placeholder.com/120x90?text=Pizza1" alt="Pizza 1" class="rounded">
-          <img src="https://via.placeholder.com/120x90?text=Pizza2" alt="Pizza 2" class="rounded">
-          <img src="https://via.placeholder.com/120x90?text=Pizza3" alt="Pizza 3" class="rounded">
-        </div>
-      </div>
-
-      <!-- Category: Topping -->
-      <div class="mb-6">
-        <h2 class="text-md font-medium bg-gray-200 inline-block px-3 py-1 rounded">topping</h2>
-        <div class="grid grid-cols-3 gap-4 mt-2">
-          <img src="https://via.placeholder.com/120x90?text=Mozzarella" alt="Mozzarella" class="rounded">
-          <img src="https://via.placeholder.com/120x90?text=Bacon" alt="Bacon" class="rounded">
-          <img src="https://via.placeholder.com/120x90?text=Onion" alt="Onion" class="rounded">
-        </div>
-      </div>
-
-      <!-- Category: Side -->
-      <div>
-        <h2 class="text-md font-medium bg-gray-200 inline-block px-3 py-1 rounded">side</h2>
-        <div class="grid grid-cols-2 gap-4 mt-2">
-          <img src="https://via.placeholder.com/120x90?text=Chicken" alt="Chicken" class="rounded">
-          <img src="https://via.placeholder.com/120x90?text=Spaghetti" alt="Spaghetti" class="rounded">
-        </div>
-      </div>
-    </div>
-
-    <!-- Right: Cart -->
-    <div class="w-1/4 bg-gray-200 p-4 flex flex-col">
-      <!-- Cart Icon -->
-      <div class="flex justify-center mb-4">
-        <img src="https://img.icons8.com/ios-filled/50/shopping-cart.png" alt="cart" class="w-10 h-10" />
-      </div>
-
-      <!-- Cart Items -->
-      <div class="space-y-4 flex-1">
-        <!-- Item 1 -->
-        <div class="flex items-center space-x-2">
-          <img src="https://via.placeholder.com/60x40?text=Pizza" class="rounded" />
-          <span class="text-lg">1</span>
-          <img src="https://img.icons8.com/ios-filled/24/trash.png" class="cursor-pointer" alt="delete"/>
-        </div>
-
-        <!-- Item 2 -->
-        <div class="flex items-center space-x-2">
-          <img src="https://via.placeholder.com/60x40?text=Mozzarella" class="rounded" />
-          <span class="text-lg">2</span>
-          <img src="https://img.icons8.com/ios-filled/24/trash.png" class="cursor-pointer" alt="delete"/>
-        </div>
-
-        <!-- Item 3 -->
-        <div class="flex items-center space-x-2">
-          <img src="https://via.placeholder.com/60x40?text=Spaghetti" class="rounded" />
-          <span class="text-lg">1</span>
-          <img src="https://img.icons8.com/ios-filled/24/trash.png" class="cursor-pointer" alt="delete"/>
-        </div>
-      </div>
-
-      <!-- Total Price -->
-      <div class="mt-4 border-t pt-4 text-center text-lg font-semibold">
-        Total: ₩45,000
-      </div>
-    </div>
+<body>
+<div class="container">
+  <div class="menu">
+    <h1>MENU</h1>
+    <div id="menuContainer"></div>
   </div>
 
+  <div class="cart">
+    <div class="cart-icon">
+      <img src="https://cdn-icons-png.flaticon.com/512/263/263142.png" alt="cart">
+    </div>
+    <div id="cartList"></div>
+    <div class="total" id="totalPrice">Total: ₩0</div>
+    <button id="payBtn">결제하기</button>
+  </div>
+</div>
+
+<div id="receiptModal">
+  <div class="modal-content">
+    <h2 style="text-align: center;">영수증</h2>
+    <div id="receiptContent" style="margin-top: 20px;"></div>
+    <div id="receiptTotal" style="text-align: right; font-weight: bold; margin-top: 10px;"></div>
+    <button onclick="closeReceipt()" style="margin-top: 20px; width: 100%;">닫기</button>
+  </div>
+</div>
+
+<script>
+  const menus = [
+    { mno: 1, category: 'pizza', name: '페페로니 피자', price: 12000, img: 'images/peppr.jpg' },           
+    { mno: 2, category: 'pizza', name: '포테이토 피자', price: 13000, img: 'images/potato.jpg' },       
+    { mno: 3, category: 'pizza', name: '슈퍼슈프림 피자', price: 14000, img: 'images/superspreme.jpg' }, 
+    { mno: 4, category: 'topping', name: '모짜렐라치즈 추가', price: 2000, img: 'images/cheese.jpg' },     
+    { mno: 5, category: 'topping', name: '베이컨 추가', price: 2500, img: 'images/bacon.jpg' },            
+    { mno: 6, category: 'topping', name: '양파추가', price: 1500, img: 'images/union.jpg' },              
+    { mno: 7, category: 'side', name: '버팔로윙', price: 5000, img: 'images/buffalo.jpg' },               
+    { mno: 8, category: 'side', name: '스파게티', price: 6000, img: 'images/spgetti.jpg' },               
+  ];
+
+  const cart = {};
+
+  function addToCart(menu) {
+    const key = menu.mno;
+    cart[key] = cart[key] ? { ...cart[key], qty: cart[key].qty + 1 } : { ...menu, qty: 1 };
+    renderCart();
+  }
+
+  function changeQty(mno, delta) {
+    const item = cart[mno];
+    if (!item) return;
+    item.qty += delta;
+    if (item.qty <= 0) delete cart[mno];
+    renderCart();
+  }
+
+  function renderMenu() {
+    const container = document.getElementById('menuContainer');
+    const categories = [...new Set(menus.map(m => m.category))];
+    categories.forEach(category => {
+      const section = document.createElement('div');
+      section.className = 'category';
+      section.innerHTML = `<h3>${category}</h3><div class="items"></div>`;
+      const itemsBox = section.querySelector('.items');
+      menus.filter(m => m.category === category).forEach(menu => {
+        const div = document.createElement('div');
+        div.className = 'item-box';
+        div.innerHTML = `
+          <img src="${menu.img}" alt="${menu.name}">
+          <div class="item-label">${menu.name}: ₩${menu.price.toLocaleString()}</div>`;
+        div.addEventListener('click', () => addToCart(menu));
+        itemsBox.appendChild(div);
+      });
+      container.appendChild(section);
+    });
+  }
+
+  function renderCart() {
+    const cartList = document.getElementById("cartList");
+    const totalBox = document.getElementById("totalPrice");
+    cartList.innerHTML = '';
+    let total = 0;
+    for (let mno in cart) {
+      const item = cart[mno];
+      const itemTotal = item.qty * item.price;
+      total += itemTotal;
+      const div = document.createElement('div');
+      div.className = 'cart-item';
+      div.innerHTML = `
+        <img src="${item.img}" alt="${item.name}">
+        <div style="flex:1;">${item.name}</div>
+        <div class="qty-box">
+          <button onclick="changeQty(${mno}, -1)">-</button>
+          <span>${item.qty}</span>
+          <button onclick="changeQty(${mno}, 1)">+</button>
+        </div>
+        <div>₩${itemTotal.toLocaleString()}</div>`;
+      cartList.appendChild(div);
+    }
+    totalBox.textContent = 'Total: ₩' + total.toLocaleString();
+  }
+
+  document.getElementById("payBtn").addEventListener("click", () => {
+    const receipt = document.getElementById("receiptContent");
+    const totalDisplay = document.getElementById("receiptTotal");
+    receipt.innerHTML = "";
+    let total = 0;
+    for (let mno in cart) {
+      const item = cart[mno];
+      const itemTotal = item.qty * item.price;
+      total += itemTotal;
+      receipt.innerHTML += `
+        <div style="margin-bottom: 10px;">
+          <strong>${item.name}</strong> x ${item.qty}개<br/>
+          단가: ₩${item.price.toLocaleString()} / 합계: ₩${itemTotal.toLocaleString()}
+        </div>`;
+    }
+    totalDisplay.textContent = `총 결제 금액: ₩${total.toLocaleString()}`;
+    document.getElementById("receiptModal").style.display = "flex";
+  });
+
+  function closeReceipt() {
+    document.getElementById("receiptModal").style.display = "none";
+  }
+
+  renderMenu();
+</script>
 </body>
 </html>
+

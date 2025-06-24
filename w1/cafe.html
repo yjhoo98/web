@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Menu and Cart Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      gap: 20px;
+    }
+
+    .container {
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .menu-section {
+      flex: 7;
+      background-color: #f0f0f0;
+    }
+
+    .cart-section {
+      flex: 3;
+      background-color: #e0f7fa;
+    }
+
+    h2 {
+      color: #333;
+      margin-top: 0;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      cursor: pointer;
+    }
+
+    li:last-child {
+      border-bottom: none;
+    }
+
+    .menu-img {
+      width: 100px;
+      height: auto;
+      margin-top: 5px;
+      border-radius: 4px;
+    }
+
+    .total {
+      font-weight: bold;
+      margin-top: 15px;
+      border-top: 1px solid #999;
+      padding-top: 10px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-controls {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .cart-controls button {
+      padding: 3px 7px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container menu-section">
+    <h2>Menu</h2>
+    <ul id="menu-list"></ul>
+    <p>Menu is constantly updated.</p>
+  </div>
+
+  <div class="container cart-section">
+    <h2>Cart</h2>
+    <ul id="cart-list"></ul>
+    <p class="total" id="cart-total">총 가격: 0원</p>
+  </div>
+
+  <script>
+    const menus = [
+      { mno: 1, name: "아메리카노", price: 4000, image: "americano.jpg" },
+      { mno: 2, name: "카페 라떼", price: 4500, image: "cafelatte.jpg" },
+      { mno: 3, name: "카푸치노", price: 4600, image: "cappuccino.png" },
+      { mno: 4, name: "녹차 라떼", price: 5000, image: "greentealatte.jpg" },
+      { mno: 5, name: "초코 케이크", price: 6500, image: "chocolatecake.jpg" }
+    ];
+
+    const menuList = document.getElementById("menu-list");
+    const cartList = document.getElementById("cart-list");
+    const cartTotal = document.getElementById("cart-total");
+
+    const cart = new Map();
+    let totalPrice = 0;
+
+    // ✅ 메뉴 및 클릭 처리 모두 forEach 안에 통합
+    menus.forEach(menu => {
+      const li = document.createElement("li");
+
+      const name = document.createElement("div");
+      name.textContent = `${menu.name} - ${menu.price.toLocaleString()}원`;
+
+      const img = document.createElement("img");
+      img.src = `./images/${menu.image}`; // 🔧 이미지 파일 경로
+      img.alt = menu.name;
+      img.className = "menu-img";
+
+      li.appendChild(name);
+      li.appendChild(img);
+
+      // ✅ 클릭 시 장바구니 추가 or 수량 증가
+      li.addEventListener("click", () => {
+        if (cart.has(menu.mno)) {
+          cart.get(menu.mno).quantity++;
+          document.getElementById(`qty-${menu.mno}`).textContent = cart.get(menu.mno).quantity;
+        } else {
+          cart.set(menu.mno, { menu, quantity: 1 });
+
+          const liCart = document.createElement("li");
+          liCart.id = `cart-item-${menu.mno}`;
+          liCart.className = "cart-item";
+
+          const nameSpan = document.createElement("span");
+          nameSpan.textContent = menu.name;
+
+          const controls = document.createElement("div");
+          controls.className = "cart-controls";
+
+          const minusBtn = document.createElement("button");
+          minusBtn.textContent = "-";
+          minusBtn.addEventListener("click", () => {
+            const item = cart.get(menu.mno);
+            item.quantity--;
+            if (item.quantity <= 0) {
+              cart.delete(menu.mno);
+              liCart.remove();
+            } else {
+              document.getElementById(`qty-${menu.mno}`).textContent = item.quantity;
+            }
+            updateTotal();
+          });
+
+          const quantitySpan = document.createElement("span");
+          quantitySpan.id = `qty-${menu.mno}`;
+          quantitySpan.textContent = "1";
+
+          const plusBtn = document.createElement("button");
+          plusBtn.textContent = "+";
+          plusBtn.addEventListener("click", () => {
+            cart.get(menu.mno).quantity++;
+            document.getElementById(`qty-${menu.mno}`).textContent = cart.get(menu.mno).quantity;
+            updateTotal();
+          });
+
+          controls.appendChild(minusBtn);
+          controls.appendChild(quantitySpan);
+          controls.appendChild(plusBtn);
+
+          liCart.appendChild(nameSpan);
+          liCart.appendChild(controls);
+          cartList.appendChild(liCart);
+        }
+
+        updateTotal(); // ✅ 총 가격 갱신
+      });
+
+      menuList.appendChild(li);
+    });
+
+    // ✅ 총 가격 갱신 함수
+    function updateTotal() {
+      totalPrice = 0;
+      for (const { menu, quantity } of cart.values()) {
+        totalPrice += menu.price * quantity;
+      }
+      cartTotal.textContent = `총 가격: ${totalPrice.toLocaleString()}원`;
+    }
+  </script>
+
+</body>
+</html>
